@@ -127,8 +127,8 @@ function App(props) {
   console.log("📟 stake events:",stakeEvents)
 
   // keep track of a variable from the contract in the local React state:
-  const timeLeft = useContractReader(readContracts,"Staker", "timeLeft")
-  console.log("⏳ timeLeft:",timeLeft)
+  const timeLeft = useContractReader(readContracts, "Staker", "timeLeft")
+  console.log("⏳ timeLeft:", timeLeft)
 
 
 
@@ -275,7 +275,7 @@ function App(props) {
 
           <div style={{padding:8}}>
             <Button type={"default"} onClick={()=>{
-              tx( writeContracts.Staker.withdraw( address ) )
+              tx( writeContracts.Staker.withdraw() )
             }}>🏧  Withdraw</Button>
           </div>
 
