@@ -13,6 +13,7 @@ import { Transactor } from "./helpers";
 import { formatEther, parseEther } from "@ethersproject/units";
 import { Hints, ExampleUI, Subgraph } from "./views"
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
+import { BigNumber } from "ethers";
 const humanizeDuration = require("humanize-duration");
 /*
     Welcome to 🏗 scaffold-eth !
@@ -127,8 +128,17 @@ function App(props) {
   console.log("📟 stake events:",stakeEvents)
 
   // keep track of a variable from the contract in the local React state:
-  const timeLeft = useContractReader(readContracts, "Staker", "timeLeft")
+  let timeLeft = useContractReader(readContracts, "Staker", "deadline")
+  // timeLeft = timeLeft ? timeLeft.toNumber() : 0;
+  if (typeof timeLeft !== "undefined") {
+    const now = Date.now() / 1000;
+    timeLeft = timeLeft.toNumber() 
+    timeLeft = now > timeLeft ? 0 : timeLeft - now
+  }
+  // timeLeft = now > timeLeft ? 0 : timeLeft - now;
   console.log("⏳ timeLeft:", timeLeft)
+  // const timeLeft = useContractReader(readContracts, "Staker", "timeLeft")
+  // console.log("⏳ timeLeft:", timeLeft)
 
 
 
@@ -243,7 +253,9 @@ function App(props) {
 
           <div style={{padding:8,marginTop:32}}>
             <div>Timeleft:</div>
-            {timeLeft && humanizeDuration(timeLeft.toNumber()*1000)}
+            {/* {Math.floor(timeLeft)} */}
+            {timeLeft && humanizeDuration(timeLeft*1000)}
+            {/* {timeLeft && humanizeDuration(timeLeft.toNumber()*1000)} */}
           </div>
 
           <div style={{padding:8}}>

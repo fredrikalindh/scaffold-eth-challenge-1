@@ -10,7 +10,7 @@ contract Staker {
 
   constructor(address exampleExternalContractAddress) {
     exampleExternalContract = ExampleExternalContract(exampleExternalContractAddress);
-    deadline = block.timestamp + 60 seconds;
+    deadline = block.timestamp + 1 days;
   }
 
   mapping (address => uint) public balances;
